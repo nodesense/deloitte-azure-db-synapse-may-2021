@@ -16,3 +16,21 @@ dbutils.fs.mount(
   extra_configs = {config: sas} ) # config is key, value is sas token
 
 ```
+
+
+```
+# this ls command, actualyl query Azure blob over blob api
+dbutils.fs.ls("/mnt/movielens")
+
+```
+
+```
+# both "dbfs:///mnt/movielens" and "/mnt/movielens" are same
+dbutils.fs.ls("dbfs:///mnt/movielens")
+```
+
+```
+# DON't DO THIS , this WILL UNMOUNT 
+
+#dbutils.fs.unmount("/mnt/movielens")
+```
