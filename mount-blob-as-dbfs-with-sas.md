@@ -1,3 +1,4 @@
+```python
 storageAccountName = "<<storage-name>>"
 containerName = "<<container-name>>"
 
@@ -13,3 +14,5 @@ dbutils.fs.mount(
   source = "wasbs://"+containerName+"@"+storageAccountName+".blob.core.windows.net",
   mount_point = "/mnt/movielens",
   extra_configs = {config: sas} ) # config is key, value is sas token
+
+```
