@@ -1,3 +1,4 @@
+```sql
 -- PArquest table 
 
  
@@ -24,3 +25,4 @@ CREATE EXTERNAL TABLE agg_amount (
 );
 
 select * from agg_amount;
+```
