@@ -1,0 +1,17 @@
+{
+	"name": "JoinDedi-External-CTAS",
+	"properties": {
+		"content": {
+			"query": "\n-- GROUP BY, HAVING, ORDER BY \n-- external table with in dedicated sql\n\nSELECT movieId, COUNT(userId) AS total_voting, AVG(rating) AS avg_rating \nFROM ratings \nGROUP BY (movieId)\nHAVING COUNT(userId) >= 100\nORDER BY total_voting DESC;\n\n-- query from dedi table/Internal\n\nSELECT TOP 10 id, title  from movies \n\n-- POLY BASE Query, multiple flavors, csv/parquet, orc\n-- join internal and external tables..\n\n\nSELECT movieId, title, COUNT(userId) AS total_voting, AVG(rating) AS avg_rating \nFROM ratings \nJOIN movies \nON movies.id = ratings.movieId\nGROUP BY movieId, title\nHAVING COUNT(userId) >= 100\nORDER BY total_voting DESC;\n\n-- CTAS - Create Table As Select\n\n-- we create a dedi pool table called popular_movies\n-- from the query \n\nCREATE TABLE popular_movies \nWITH(\n    DISTRIBUTION=REPLICATE, \n    CLUSTERED COLUMNSTORE INDEX\n)\nAS\nSELECT movieId, title, COUNT(userId) AS total_voting, AVG(rating) AS avg_rating \n    FROM ratings \n    JOIN movies \n    ON movies.id = ratings.movieId\n    GROUP BY movieId, title\n    HAVING COUNT(userId) >= 100;\n\nSELECT * from popular_movies;\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"poolName": "SynapseDW",
+				"databaseName": "SynapseDW"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "SparkTableInServerLess",
+	"properties": {
+		"content": {
+			"query": "USE ecommerce;\nSELECT * FROM sys.tables;\nSELECT * FROM sys.databases;\n\nselect * from myparquettable",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"poolName": "Built-in",
+				"databaseName": "ecommerce"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

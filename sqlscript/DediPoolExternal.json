@@ -1,0 +1,17 @@
+{
+	"name": "DediPoolExternal",
+	"properties": {
+		"content": {
+			"query": "\n-- dedicated pool cannot access formats, tables, from sql serverless\n-- to expand the storage limitations faced by Dedicated Pool\n-- to reduce cost of dedicated pool\n-- large volume of data, less freq accessed vs value (cost), keep this data in lake..\n-- joins, aggregation together with dedicated pool table and external tables..\n\nCREATE EXTERNAL FILE FORMAT [ExternalCSVWithHeader] \n                WITH (\n                    FORMAT_TYPE = DELIMITEDTEXT,\n                    FORMAT_OPTIONS (FIELD_TERMINATOR=',', FIRST_ROW=2)\n                )\n \n \nCREATE EXTERNAL DATA SOURCE [movieset_ds]\n  WITH (LOCATION='abfss://movieset@deloittesynapasestorage.dfs.core.windows.net', \n        TYPE=HADOOP)\n\n\nSELECT * from sys.external_data_sources;\n\n\n-- links movieId,imdbId,tmdbId\n\nCREATE EXTERNAL TABLE links (\n    movieId INT,\n    imdbId INT,\n    tmdbId INT\n) WITH (\n    -- location/path within data source, point to directory, not a specific file\n    LOCATION='links/',\n    -- data source has container name, storage account\n    DATA_SOURCE = [movieset_ds],\n    FILE_FORMAT = [ExternalCSVWithHeader]\n);\n\nSELECT * from links;\n\n\n -- ratings: userId,movieId,rating,timestamp\n\n\nCREATE EXTERNAL TABLE ratings (\n    userId INT,\n    movieId INT,\n    rating FLOAT,\n    timestamp BIGINT \n) WITH (\n    -- location/path within data source, point to directory, not a specific file\n    LOCATION='ratings/',\n    -- data source has container name, storage account\n    DATA_SOURCE = [movieset_ds],\n    FILE_FORMAT = [ExternalCSVWithHeader]\n);\n\nSELECT * FROM ratings;\n\n\n-- userId,movieId,tag,timestamp\n\nCREATE EXTERNAL TABLE tags (\n    userId INT,\n    movieId INT,\n    tag VARCHAR(256),\n    timestamp BIGINT\n) WITH (\n    -- location/path within data source\n    LOCATION='tags/tags.csv',\n    -- data source has container name, storage account\n    DATA_SOURCE = [movieset_ds],\n    FILE_FORMAT = [ExternalCSVWithHeader]\n);\n\nSELECT * from tags;\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"poolName": "SynapseDW",
+				"databaseName": "SynapseDW"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

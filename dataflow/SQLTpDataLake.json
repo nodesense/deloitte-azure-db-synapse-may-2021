@@ -1,0 +1,32 @@
+{
+	"name": "SQLTpDataLake",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "InvoicesSQL",
+						"type": "DatasetReference"
+					},
+					"name": "InvoiceSQLTable"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "InvoiceParquet",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Sort1"
+				}
+			],
+			"script": "source(output(\n\t\tinvoice_id as integer,\n\t\tinvoice_amount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> InvoiceSQLTable\nInvoiceSQLTable sort(desc(invoice_amount, true)) ~> Sort1\nSort1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

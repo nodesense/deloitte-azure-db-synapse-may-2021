@@ -1,0 +1,17 @@
+{
+	"name": "PARTITIONS",
+	"properties": {
+		"content": {
+			"query": "-- partitions, how the data is stored further in the distribution\n\n\n-- DISTRUBED ROUND_ROBIN, REPLICATE, HASH\n\n-- How the data stored with in distribution\n-- ROWSTORE, COLUMNSTORE\n\n-- Partition - within the ROWSTORE, COLUMNSTORE, how the data is split again into chunk\n    -- LEFT RANGE\n    -- RIGHT  RANGE\n  -- by default it will assum round round robin for distribution\n\nCREATE TABLE users(\n    id INT NOT NULL,\n    firstname varchar(20)\n) WITH (\n    PARTITION (id RANGE LEFT FOR VALUES (1000, 10000, 20000, 30000))\n)\n\n-- partition 1\nINSERT INTO users VALUES (1, 'Ramesh');\nINSERT INTO users VALUES (2, 'Amala');\nINSERT INTO users VALUES (3, 'Paul');\nINSERT INTO users VALUES (4, 'Ravi');\nINSERT INTO users VALUES (5, 'Karthik');\nINSERT INTO users VALUES (6, 'Ali');\n-- parition 2\nINSERT INTO users VALUES (1500, 'Iniya');\n-- partition 5\nINSERT INTO users VALUES (30010, 'Venkat');\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"poolName": "SynapseDW",
+				"databaseName": "SynapseDW"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

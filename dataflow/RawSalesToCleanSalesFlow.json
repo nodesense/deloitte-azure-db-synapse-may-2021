@@ -1,0 +1,32 @@
+{
+	"name": "RawSalesToCleanSalesFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SalesRawDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "RawSalesData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SalesCleanCsvDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "SalesCleanData"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AmountGt0"
+				}
+			],
+			"script": "source(output(\n\t\tsale_id as integer,\n\t\tamount as double,\n\t\tqty as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tmoveFiles: ['/sales','sales-processed']) ~> RawSalesData\nRawSalesData filter(amount > 0) ~> AmountGt0\nAmountGt0 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SalesCleanData"
+		}
+	}
+}

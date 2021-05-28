@@ -1,0 +1,28 @@
+{
+	"name": "InvoicesSQL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "invoice_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "invoice_amount",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "INVOICES"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

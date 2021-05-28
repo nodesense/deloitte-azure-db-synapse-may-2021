@@ -1,0 +1,21 @@
+{
+	"name": "InvoiceParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "deloittesynapase-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "invoices",
+				"fileSystem": "ecommerce"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

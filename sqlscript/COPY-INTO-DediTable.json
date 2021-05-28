@@ -1,0 +1,17 @@
+{
+	"name": "COPY-INTO-DediTable",
+	"properties": {
+		"content": {
+			"query": "-- create internal/managed table in dedicated pool\n\nCREATE TABLE movies (\n    id INT NOT NULL,\n    title VARCHAR(500),\n    genres VARCHAR(250)\n) WITH (\n    DISTRIBUTION = REPLICATE,\n    CLUSTERED COLUMNSTORE INDEX\n);\n\n-- https://deloittesynapasestorage.blob.core.windows.net/movieset/movies/movies.csv\n-- copy all columns\n\nCOPY INTO movies \n    FROM 'https://deloittesynapasestorage.blob.core.windows.net/movieset/movies/movies.csv'\nWITH (\nFILE_TYPE = 'CSV',\nFIELDTERMINATOR = ',',\nFIRSTROW=2\n)\n\nSELECT * from movies;\n\n-- copy into specific columns\n\nCREATE TABLE movies2 (\n    id INT NOT NULL,\n    title VARCHAR(500)\n) WITH (\n    DISTRIBUTION = REPLICATE,\n    CLUSTERED COLUMNSTORE INDEX\n);\n\n\nCOPY INTO movies2 (id, title)\n    FROM 'https://deloittesynapasestorage.blob.core.windows.net/movieset/movies/movies.csv'\nWITH (\nFILE_TYPE = 'CSV',\nFIELDTERMINATOR = ',',\nFIRSTROW=2\n)\n\nSELECT * from movies2;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"poolName": "SynapseDW",
+				"databaseName": "SynapseDW"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

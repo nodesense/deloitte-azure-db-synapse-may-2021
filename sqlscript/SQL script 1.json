@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1",
+	"properties": {
+		"content": {
+			"query": "-- PArquest table \n\n \ncreate external data source ecommerce_agg_ds\nwith ( location = 'abfss://ecommerce@deloittesynapasestorage.dfs.core.windows.net' );\n\nCREATE EXTERNAL FILE FORMAT PARQUET_FORMAT\nWITH\n(  \n    FORMAT_TYPE = PARQUET,\n    DATA_COMPRESSION = 'org.apache.hadoop.io.compress.SnappyCodec'\n)\n \n\n-- ROP EXTERNAL TABLE agg_amount;\n\nCREATE EXTERNAL TABLE agg_amount (\n    InvoiceNo VARCHAR(256),\n    Amount float\n) WITH (\n    LOCATION = 'agg-results',\n    DATA_SOURCE = ecommerce_agg_ds,  \n    FILE_FORMAT = PARQUET_FORMAT\n);\n\nselect * from agg_amount;\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"poolName": "Built-in",
+				"databaseName": "moviedb"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

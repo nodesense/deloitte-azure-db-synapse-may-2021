@@ -1,0 +1,17 @@
+{
+	"name": "DedicatedSQL",
+	"properties": {
+		"content": {
+			"query": "-- Dedicated Pool\n-- Column Store, more efficient, scan only specific columns instead whole rows\n-- queries can run faster, interactive, good for dashboard, notebooks\n-- Managed table, DW Table\n-- the table DDL, table data is managed by Dedicated Pool\n-- insert, delete, update, create, drop all these to be done on Dedicated Pool as SQL\n\n-- Distribution : how the table data to be stored in compute nodes \n-- REPLICATE, ROUND_ROBIN, HASH\n\n-- with column store\n\nCREATE TABLE category (\n    id INT NOT NULL,\n    category_name VARCHAR(100)\n) WITH (\n    DISTRIBUTION = REPLICATE,\n    CLUSTERED COLUMNSTORE INDEX\n);\n\n\nINSERT INTO category VALUES (1, 'mobile');\nINSERT INTO category VALUES (2, 'tablet');\n\nSELECT * From category;\n\nCREATE TABLE sales (\n    id INT NOT NULL,\n    amount FLOAT, \n    country VARCHAR(100),\n    category INT\n) WITH (\n     DISTRIBUTION = HASH(country),\n     CLUSTERED COLUMNSTORE INDEX\n)\n\nINSERT INTO sales VALUES (1, 100, 'IN', 1);\nINSERT INTO sales VALUES (2, 200, 'USA', 2);\nINSERT INTO sales VALUES (3, 300, 'CA', 1);\nINSERT INTO sales VALUES (4, 600, 'IN', 2);\nINSERT INTO sales VALUES (5, 700, 'CA', 2);\nINSERT INTO sales VALUES (6, 800, 'CA', 1);\n\nselect * from sales;\n\n\nEXPLAIN select * from sales;\n\nEXPLAIN select * from sales where country='IN';\n-- DROP TABLE category;\n\n-- doesn't work\n-- DESCRIBE TABLE  category;\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"poolName": "SynapseDW",
+				"databaseName": "SynapseDW"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
