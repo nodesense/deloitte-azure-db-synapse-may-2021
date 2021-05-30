@@ -69,3 +69,17 @@ categoryDf.write \
   .save()
   
 ```
+
+Error , seems issue with checkpoint location.
+
+```
+# default location /local_disk0/tmp/
+query = rateStream.writeStream \
+  .format("com.databricks.spark.sqldw") \
+  .option("url", jdbcUrl) \
+  .option("tempDir", tempDir + "/test2") \
+  .option("forwardSparkAzureStorageCredentials", "true") \
+  .option("dbTable", "rates") \
+  .option("checkpointLocation", "/local_disk0/tmp/tests") \
+  .start()
+```
