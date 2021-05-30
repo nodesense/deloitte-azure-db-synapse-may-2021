@@ -85,3 +85,13 @@ CREATE TABLE users (
  created_at datetime,
  modified_at datetime
 )
+
+
+CREATE TABLE user_payments (
+id INT,
+user_id INT,
+payment_type varchar(100),
+provider varchar(100),
+account_no INT,
+expiry  date
+)
