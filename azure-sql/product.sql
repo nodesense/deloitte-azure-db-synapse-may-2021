@@ -76,3 +76,12 @@ CREATE TABLE order_items (
  created_at datetime,
  modified_at datetime
 )
+
+
+
+CREATE TABLE users (
+ id int,
+ username varchar(256),
+ created_at datetime,
+ modified_at datetime
+)
