@@ -42,3 +42,37 @@ CREATE TABLE product_inventory (
 
 
 
+
+CREATE TABLE carts (
+   cart_id INT,
+   user_id INT,
+   total INT, 	
+   created_at datetime,
+   modified_at datetime,
+)
+
+CREATE TABLE cart_items (
+   id INT, 
+   cart_id INT,
+   product_id INT, 
+   quantity INT,
+   created_at datetime,
+   modified_at datetime
+)
+
+CREATE TABLE orders (
+ id INT, 
+ user_id INT,
+ total float,
+ payment_id int, 
+ created_at datetime,
+ modified_at datetime
+ )
+
+CREATE TABLE order_items (
+ id int,
+ order_id INT,
+ product_id int, 
+ created_at datetime,
+ modified_at datetime
+)
