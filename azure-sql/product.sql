@@ -78,6 +78,17 @@ CREATE TABLE order_items (
 )
 
 
+CREATE TABLE payments (
+ id int,
+ order_id INT,
+ amount int, 
+ provider varchar(256),
+ status   varchar(50),
+ created_at datetime,
+ modified_at datetime
+ )
+
+
 
 CREATE TABLE users (
  id int,
