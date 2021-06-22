@@ -34,6 +34,8 @@ File Source: Production_BillOfMaterials.CSV
 -- 5/26/2010 12:00:00 AM
 -- dd/MM/yyyy HH:mm:ss tt
 
+```sql
+
 CREATE EXTERNAL FILE FORMAT [ExternalCSVWithHeaderWithDblQuote] 
                 WITH (
                     FORMAT_TYPE = DELIMITEDTEXT,
@@ -74,3 +76,4 @@ CREATE EXTERNAL TABLE Production_BillOfMaterials (
 );
 
 SELECT * from Production_BillOfMaterials;
+```
